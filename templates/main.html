@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>SE SOCKET</title>
+</head>
+<body>
+
+<div id="loginbox">
+    <p>Channel name: <input id="txtRoom" type="text" name="channel" value=""></p>
+	<p>Your Name: <input id="txtNickname" type="text" name="client" value=""></p>
+	<p><input id="btnLogin" type="button" name="Send" value="Start chat!" disabled="disabled"/></p>
+	</div>
+
+<script src="static/zepto.min.js"></script>
+
+<script>
+    Zepto(function($){
+        $('#btnLogin').click(function() {
+            var h;
+            h = window.location.host  + '/chat.html/?channel=' + $('#txtNickname').val() + '&client=' + $('#txtNickname').val();
+            window.location = '/?channel=' + $('#txtRoom').val() + '&client=' + $('#txtNickname').val();
+        });
+
+        $("#txtRoom").keyup(function(event) { update_send(); } );
+        $("#txtNickname").keyup(function(event) { update_send(); } );
+
+    });
+
+    function update_send() {
+        if ( $("#txtRoom").val() != "" && $("#txtNickname").val() != "") {
+            $("#btnLogin").removeAttr("disabled");
+        } else {
+            $("#btnLogin").attr("disabled", "disabled");
+        }
+    };
+
+</script>
+</body>
+</html>
