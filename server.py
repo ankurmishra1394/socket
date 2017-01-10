@@ -1,27 +1,31 @@
+import re
 import os
 import uuid
 import json
 import tornado.ioloop
 import tornado.web
 from tornado import websocket
+from ViewData import ViewData
 from MainHandler import MainHandler
-from ClientHandler import ClientWSConnection
 from ChannelHandler import ChannelHandler
-import tornado.options
-import sys
+from ClientHandler import ClientWSConnection
+from DataBaseConnections import MongoConnections
+from AppsAuthentication import AppsAuthentication
+# from EventController import EventController
 
-if __name__ == "__main__":
-    #tornado.options.options['log_file_prefix'].set('/var/log/socket.log')
-    args = sys.argv
-    args.append("--log_file_prefix=/var/log/socket.log")
-    tornado.options.parse_command_line(args)
-    channel = ChannelHandler()
-    app = tornado.web.Application([
-        (r"/", MainHandler, {'channel_handler': channel}),
-        (r"/ws/(.*)", ClientWSConnection, {'channel_handler': channel})],
-        static_path=os.path.join(os.path.dirname(__file__), "static")
-    )
-    app.listen(1234)
-    print 'SE Socket Started'
-    print 'listening on 1234 ...'
-    tornado.ioloop.IOLoop.instance().start()
+channel = ChannelHandler()
+collection = MongoConnections()
+
+app = tornado.web.Application([
+    (r"/", MainHandler, {'channel_handler': channel}),
+    (r"/app", AppsAuthentication),
+    # (r"/event", EventController),
+    (r"/ws/(.*)", ClientWSConnection, {'channel_handler': channel}),
+    (r'/show/(.*?)',ViewData,{'channel_handler':channel, 'collection': collection.Collection()}),
+    ],
+    static_path=os.path.join(os.path.dirname(__file__), "static")
+)
+app.listen(8888)
+print 'SE Socket Started'
+print 'listening on 8888 ...'
+tornado.ioloop.IOLoop.instance().start()

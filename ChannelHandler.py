@@ -1,5 +1,5 @@
 import uuid
-import json
+import json,urllib,urllib2
 
 class ChannelHandler(object):
     def __init__(self):
@@ -19,8 +19,7 @@ class ChannelHandler(object):
                 user = client + str(counter)
             else:
                 break
-            counter += 1
-
+            counter += 1        
         self.client_info[client_id] = {'channel': channel, 'client': user}  # we still don't know the WS connection for this client
         self.channel_info[channel].append({'client_id': client_id, 'client': user})
         return client_id
@@ -91,6 +90,7 @@ class ChannelHandler(object):
     def send_message(connections, clients_list):
         message = {"msgtype": "nick_list", "payload": clients_list}
         pmessage = json.dumps(message)
+        
         for connected in connections:
             connected.write_message(pmessage)
 

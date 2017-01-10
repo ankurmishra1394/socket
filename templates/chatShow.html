@@ -1,0 +1,43 @@
+{% extends "temphtml.html" %}
+
+
+{% block content %}
+
+<script type="text/javascript">
+
+	function show(){
+		var channelname = document.getElementById('channelname');
+	   	window.location = '/show/'+channelname.value;
+	}
+
+	function home(){
+		window.location = '/';
+	}
+
+</script>
+
+<div class="form-group" style="">
+	<label for="exampleInputName2">Channel Name</label>    
+	<input type="text" id="channelname" name="channelname" placeholder="channelname">
+	<input type="button" name="Button" value="Show" class="btn btn-primary" onclick="show()">
+	<input type="button" name="Button1" value="Home" class="btn btn-primary" onclick="home()">
+</div><br>
+
+	<table class="table table-bordered">
+		<tr>
+			<th>Channel Name</th>
+			<th>Client Name</th>
+			<th>Message</th>
+		</tr>
+	{% for val in list %}
+		
+		<tr width='100%'>
+			<td>{{ val }}</td>
+			<td>{{ val['username'] }}</td>
+			<td>{{ val['payload'] }}</td>
+		</tr>
+		
+		{% end %}
+	</table>
+{% end %}
+

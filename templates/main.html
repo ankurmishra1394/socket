@@ -9,14 +9,18 @@
 	<p>Your Name: <input id="txtNickname" type="text" name="client" value=""></p>
 	<p><input id="btnLogin" type="button" name="Send" value="Start chat!" disabled="disabled"/></p>
 	</div>
-
+    <a  href="/show/" target="_blank">
+        <input type="button" name="submit" value="Show Data">
+    </a>
 <script src="static/zepto.min.js"></script>
 
 <script>
     Zepto(function($){
         $('#btnLogin').click(function() {
+            /* ----------------- It has no use & sending same thing to chat.html-------------
             var h;
             h = window.location.host  + '/chat.html/?channel=' + $('#txtNickname').val() + '&client=' + $('#txtNickname').val();
+            */
             window.location = '/?channel=' + $('#txtRoom').val() + '&client=' + $('#txtNickname').val();
         });
 

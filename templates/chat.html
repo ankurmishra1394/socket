@@ -11,6 +11,9 @@
 		Your message:<br/> <input id="txtMsg" type="text" name="msg" value="">
 		<input type="button" id="btnSend" value="Send" disabled="disabled"/>
 	</div>
+    <a  href="/show/" target="_blank">
+        <input type="submit" name="submit" value="Show Data">
+    </a>
     <div id="nickList" style=""></div>
 
     <script src="/static/underscore-min.js"></script>
@@ -69,7 +72,10 @@
                 }
 
             function send_text_msg(txt) {
-                text_msg_obj = {"msgtype": "text", "payload": txt };
+                
+                // var channelname = {{ clientid[1]}}
+                // var hell='channel1';
+                text_msg_obj = {"msgtype": "text", "payload": txt};
                 $("#txtMsg").val("");
                 $("#txtMsg").focus();
                 jmsg = JSON.stringify(text_msg_obj );
@@ -87,9 +93,9 @@
                     case "nick_list": $("#nickList").empty()
                                       $("#nickList").append("<ul>");
                                       nl = _.map(msg_obj.payload, function(nick){ return "<li>"+nick+"</li>"; })
-                                      ih =  _.reduce(nl, function(inner, li){ return inner + '\n'+ li; }, "");
+                                      ih =  _.reduce(nl, function(inner, li){ return inner + '\n'+ li; }, "");                                
                                       $("#nickList").append(ih);
-                                      $("#nickList").append("</ul>");
+                                      $("#nickList").append("</ul>");   
                                   break;
                     default: $("#msgList").append("<b>"+msg_obj.username+": </b>"+msg_obj.payload+"<br/>");
                 }
